@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import LeftTop from "./left-top.vue";
+import LeftTop from "./left-top-3d-pie.vue";
 import LeftBottom from "./left-bottom.vue";
 import LeftCenter2 from "./left-center2.vue";
 import Jiankong1 from "./jiankong1.vue";

@@ -11,11 +11,11 @@ import { graphic } from "echarts"
 // import test from "@/assets/images/test.png"
 // import videoFile  from "@/assets/images/video.mp4"
 import videoFile1 from "@/assets/images/video1.mp4"
-import imageFile from "@/assets/images/031.png"
+import imageFile from "@/assets/images/zaosheng/3.png"
 export default {
     data() {
         return {
-            pageflag: true,
+            pageflag: true, 
             // imgUrl: test,
             // videoUrl: videoFile
             imgUrl: imageFile

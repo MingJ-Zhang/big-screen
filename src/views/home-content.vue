@@ -88,9 +88,9 @@ export default {
       systems: [
         { id: 1, title: '监控影像质量(噪声失真)评估', description: '自动评估画面噪声程度，量化失真影响。', route: '/zaosheng', icon: 'el-icon-data-analysis' },
         { id: 2, title: '监控影像质量(模糊失真)评估', description: '检测图像清晰度，评估模糊对识别影响。', route: '/mohu', icon: 'el-icon-picture' },
-        { id: 3, title: '监控影像质量(压缩失真)评估', description: '分析压缩伪影与码率关系，给出质量评分。', route: null, icon: 'el-icon-s-operation' },
-        { id: 4, title: '监控影像质量(亮度对比度)评估', description: '测量亮度与对比度偏差，建议优化参数。', route: null, icon: 'el-icon-s-grid' },
-        { id: 5, title: '监控影像雨雾雪自动去除', description: '智能去除雨雾雪干扰，提升画面通透度。', route: null, icon: 'el-icon-magic-stick' },
+        { id: 3, title: '监控影像质量(压缩失真)评估', description: '分析压缩伪影与码率关系，给出质量评分。', route: '/yasuo', icon: 'el-icon-s-operation' },
+        { id: 4, title: '监控影像质量(亮度对比度)评估', description: '测量亮度与对比度偏差，建议优化参数。', route: '/liangdu', icon: 'el-icon-s-grid' },
+        { id: 5, title: '监控影像雨雾雪自动去除', description: '智能去除雨雾雪干扰，提升画面通透度。', route: '/liangdu', icon: 'el-icon-magic-stick' },
         { id: 6, title: '监控影像光照自适应校准', description: '自适应补偿光照变化，稳定曝光与色彩。', route: null, icon: 'el-icon-s-tools' },
         { id: 7, title: '监控影像对比度自动优化', description: '自动增强局部与整体对比度，突出关键细节。', route: null, icon: 'el-icon-edit' },
         { id: 8, title: '粉尘有组织排放智能监测', description: '实时监测管道/设备排放粉尘浓度与状态。', route: null, icon: 'el-icon-monitor' },

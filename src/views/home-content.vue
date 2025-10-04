@@ -11,7 +11,7 @@
     <!-- 主标题 -->
     <div class="main-title">
       <h1 class="title-text">
-        <span class="title-line">智能监控数据中心</span>
+        <span class="title-line">建材工业(水泥)粉尘颗粒物智能监控系统</span>
         <!-- <span class="title-line">数据中心</span> -->
       </h1>
       <div class="title-subtitle">INTELLIGENT MONITORING DATA CENTER</div>
@@ -86,48 +86,18 @@ export default {
       connectionCount: 0,
       lastUpdate: '',
       systems: [
-        {
-          id: 1,
-          title: '工业废气排放智能监控',
-          description: '实时监控工业废气排放数据，智能预警异常情况',
-          route: '/gongyefeiqi',
-          icon: 'el-icon-data-analysis'
-        },
-        {
-          id: 2,
-          title: '水质浊度监测平台',
-          description: '全天候水质监测，保障水源安全',
-          route: '/qqq',
-          icon: 'el-icon-location'
-        },
-        {
-          id: 3,
-          title: '火焰定位平台',
-          description: '精确火焰检测与定位，快速响应火灾风险',
-          route: '/huoyandingwei',
-          icon: 'el-icon-thumb'
-        },
-        {
-          id: 4,
-          title: 'VOCs浓度监测平台',
-          description: '挥发性有机化合物实时监测与分析',
-          route: '/vocs',
-          icon: 'el-icon-s-grid'
-        },
-        {
-          id: 5,
-          title: '电镜影像可视化平台',
-          description: '高精度电镜影像处理与可视化展示',
-          route: '/dianjingyingxiang',
-          icon: 'el-icon-picture'
-        },
-        {
-          id: 6,
-          title: '遥感监测系统',
-          description: '卫星遥感数据分析与环境监测',
-          route: '/yaogan',
-          icon: 'el-icon-magic-stick'
-        }
+        { id: 1, title: '监控影像质量(噪声失真)评估', description: '自动评估画面噪声程度，量化失真影响。', route: '/zaosheng', icon: 'el-icon-data-analysis' },
+        { id: 2, title: '监控影像质量(模糊失真)评估', description: '检测图像清晰度，评估模糊对识别影响。', route: null, icon: 'el-icon-picture' },
+        { id: 3, title: '监控影像质量(压缩失真)评估', description: '分析压缩伪影与码率关系，给出质量评分。', route: null, icon: 'el-icon-s-operation' },
+        { id: 4, title: '监控影像质量(亮度对比度)评估', description: '测量亮度与对比度偏差，建议优化参数。', route: null, icon: 'el-icon-s-grid' },
+        { id: 5, title: '监控影像雨雾雪自动去除', description: '智能去除雨雾雪干扰，提升画面通透度。', route: null, icon: 'el-icon-magic-stick' },
+        { id: 6, title: '监控影像光照自适应校准', description: '自适应补偿光照变化，稳定曝光与色彩。', route: null, icon: 'el-icon-s-tools' },
+        { id: 7, title: '监控影像对比度自动优化', description: '自动增强局部与整体对比度，突出关键细节。', route: null, icon: 'el-icon-edit' },
+        { id: 8, title: '粉尘有组织排放智能监测', description: '实时监测管道/设备排放粉尘浓度与状态。', route: null, icon: 'el-icon-monitor' },
+        { id: 9, title: '粉尘有组织排放定位分割', description: '精准定位并分割排放区域，提取目标轮廓。', route: null, icon: 'el-icon-location' },
+        { id: 10, title: '粉尘有组织排放浓度预测', description: '基于时序数据预测后续排放浓度趋势。', route: null, icon: 'el-icon-s-marketing' },
+        { id: 11, title: '粉尘无组织排放浓度识别', description: '识别扩散粉尘区域并估算浓度水平。', route: null, icon: 'el-icon-data-board' },
+        { id: 12, title: '粉尘无组织排放浓度预测', description: '预测无组织扩散浓度变化并提前预警。', route: null, icon: 'el-icon-aim' }
       ]
     }
   },
@@ -137,7 +107,9 @@ export default {
   },
   methods: {
     navigateToSystem(route) {
-      this.$router.push(route)
+      if (route) {
+        this.$router.push(route)
+      }
     },
     getParticleStyle(index) {
       return {
@@ -247,9 +219,9 @@ export default {
 // 系统网格
 .systems-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
-  max-width: 1400px;
+  max-width: 1500px;
   margin: 0 auto 3rem;
   z-index: 10;
   position: relative;

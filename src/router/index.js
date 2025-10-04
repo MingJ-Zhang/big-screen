@@ -42,9 +42,9 @@ const routes = [{
   component: () => import('../views/vocs.vue')
 },
 {
-  path: '/gongyefeiqi',
-  name: 'gongyefeiqi',
-  component: () => import('../views/gongyefeiqi.vue')
+  path: '/zaosheng',
+  name: 'zaosheng',
+  component: () => import('../views/zaosheng.vue')
 },
 {
   path: '/dianjingyingxiang',

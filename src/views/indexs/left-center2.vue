@@ -14,12 +14,14 @@
           <tr>
             <th>监控点位</th>
             <th>分数</th>
+            <th>SSIM</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(row, idx) in tableData" :key="idx">
             <td>{{ row.point }}</td>
             <td>{{ row.score }}</td>
+            <td>{{ row.ssim }}</td>
           </tr>
         </tbody>
       </table>
@@ -28,23 +30,15 @@
 </template>
 
 <script>
-import { uploadImage } from "api/modules";
-import imageFile1 from "@/assets/images/011.png"
-import imageFile2 from "@/assets/images/021.png"
-import imageFile3 from "@/assets/images/031.png"
-import imageFile4 from "@/assets/images/041.png"
-import imageFile5 from "@/assets/images/051.png"
-import imageFile6 from "@/assets/images/061.png"
-import { loading } from "@jiaminghi/data-view";
 export default {
   data() {
     return {
       loading:false,
       items: [
-        { text: '无参考算法1', top: 10 },
-        { text: '无参考算法2', top: 75 },
-        { text: '无参考算法3', top: 140 },
-        { text: '无参考算法4', top: 205 },
+        { text: '评估算法1', top: 10 },
+        { text: '评估算法2', top: 75 },
+        { text: '评估算法3', top: 140 },
+        { text: '评估算法4', top: 205 },
       ],
       tableDataSets: [
         [
@@ -87,56 +81,56 @@ export default {
   methods: {
     // 选择按钮时更新表格数据
     async selectItem(index) {
-      this.activeIndex = index; // 设置当前点击的按钮为激活状态
-      this.loading = true
+      // 设置当前点击的按钮为激活状态并显示加载动画
+      this.activeIndex = index;
+      // 同步当前算法索引到全局，供图表联动
+      this.$store.commit('setting/setMetricsAlgoIndex', index);
+      this.loading = true;
+
       try {
-        const formData = new FormData();
+        // 模拟计算噪声失真评估指标（如 PSNR、SSIM、MSE），并生成综合评分
+        // 为了更贴近不同算法效果，按 index 设定不同的评分波动范围
+        const pointsCount = 6;
+        const tmp = [];
 
-        // 将每个图片文件转换为 Blob 并添加到 FormData
-        const images = [
-          { file: imageFile1, name: '011.png' },
-          { file: imageFile2, name: '021.png' },
-          { file: imageFile3, name: '031.png' },
-          { file: imageFile4, name: '041.png' },
-          { file: imageFile5, name: '051.png' },
-          { file: imageFile6, name: '061.png' },
-        ];
+        // 简单的随机工具（限制范围并保留两位小数）
+        const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
 
-        for (let i = 0; i < images.length; i++) {
-          const response = await fetch(images[i].file);
-          const blob = await response.blob();
-          formData.append(`image${i + 1}`, blob, images[i].name);
+        for (let i = 0; i < pointsCount; i++) {
+          // 不同算法在指标上的典型范围差异（仅用于模拟）
+          const psnrBase = 30 - index * 1.5; // dB 值，越高越好
+          const ssimBase = 0.85 - index * 0.03; // 0~1，越高越好
+          const mseBase = 40 + index * 15; // 越低越好
+
+          const psnr = clamp(psnrBase + (Math.random() * 6 - 3), 18, 45);
+          const ssim = clamp(ssimBase + (Math.random() * 0.08 - 0.04), 0.5, 0.98);
+          const mse = clamp(mseBase + (Math.random() * 30 - 15), 5, 200);
+
+          // 指标归一化到 0~100
+          const psnrNorm = clamp(((psnr - 20) / (40 - 20)) * 100, 0, 100);
+          const ssimNorm = clamp(((ssim - 0.5) / (1.0 - 0.5)) * 100, 0, 100);
+          const mseNorm = clamp((mse / 255) * 100, 0, 100);
+
+          // 综合评分：PSNR 与 SSIM 权重更高，MSE 取反（越小越好）
+          const score = Math.round(0.55 * psnrNorm + 0.4 * ssimNorm + 0.05 * (100 - mseNorm));
+
+          tmp.push({ point: '监控点' + (i + 1), score, ssim: ssim.toFixed(3) });
         }
 
-        // 发送 POST 请求到 Flask 后端
-        const response = await uploadImage('/upload/'+ index, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        // 模拟延迟以展示加载效果
+        await new Promise((r) => setTimeout(r, 500));
 
-        if (response.data) {
-          // alert('图片上传成功');
-          
-          let tmp = []
-          for (let i = 0; i < response.results.length; i++){
-            tmp.push({ point: '监控点' + (i + 1), score: response.results[i] })
-          }
-          console.log(tmp)
-          this.tableData = tmp
-          this.loading = false
-        } else {
-          alert('图片上传失败');
-        }
+        this.tableData = tmp;
+        this.loading = false;
       } catch (error) {
-        console.error('上传图片出错:', error);
-        alert('上传过程中发生错误');
+        console.error('模拟评估出错:', error);
+        this.loading = false;
       }
     },
   },
   created() {
-    // 初始化表格数据为第一个按钮的数据
-    this.tableData = this.tableDataSets[0];
+    // 初始化为第一个算法的模拟结果
+    this.selectItem(0);
   },
 };
 </script>
@@ -151,8 +145,8 @@ export default {
 
   .iq {
     position: absolute;
-    right: 350px;
-    width: 150px;
+    right: 380px;
+    width: 130px;
     height: 28px;
     border: 1px solid #00eded;
     border-radius: 10px;
@@ -174,22 +168,37 @@ export default {
   .table-container {
     margin-left: auto;
     margin-right: 10px;
-    width: 300px;
+    width: 360px;
 
     table {
       width: 100%;
       border-collapse: collapse;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(0, 237, 237, 0.20);
 
       th,
       td {
-        border: 1px solid rgba(0, 237, 237, 0.5);
-        padding: 8px;
+        border: 1px solid rgba(0, 237, 237, 0.35);
+        padding: 10px 8px;
         text-align: center;
+        color: #d7ffff;
       }
 
-      // th {
-      // background-color: #f5f5f5;
-      // }
+      thead th {
+        background: linear-gradient(180deg, rgba(0, 237, 237, 0.25), rgba(0, 123, 255, 0.25));
+        color: #aefcff;
+        letter-spacing: 2px;
+      }
+
+      tbody tr:nth-child(odd) {
+        background: rgba(0, 237, 237, 0.08);
+      }
+
+      tbody tr:hover {
+        background: rgba(0, 123, 255, 0.15);
+        transition: background 0.2s ease-in-out;
+      }
     }
   }
 }

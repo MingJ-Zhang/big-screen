@@ -11,62 +11,27 @@
     class="left_boottom_wrap beautify-scroll-def"
     :class="{ 'overflow-y-auto': !sbtxSwiperFlag }"
   >
-    <component :is="components" :data="list" :class-option="defaultOption">
-      <ul class="left_boottom">
-        <li class="left_boottom_item" v-for="(item, i) in list" :key="i">
-          <span class="orderNum doudong">{{ i + 1 }}</span>
-          <div class="inner_right">
-            <div class="dibu"></div>
-            <div class="flex">
-              <div class="info">
-                <span class="labels">设备ID：</span>
-                <span class="contents zhuyao doudong wangguan">
-                  {{ item.gatewayno }}</span
-                >
-              </div>
-              <div class="info">
-                <span class="labels">时间：</span>
-                <span class="contents " style="font-size: 12px">
-                  {{ item.createTime }}</span
-                >
-              </div>
-            </div>
-
-              <span
-                class="types doudong"
-                :class="{
-                  typeRed: item.onlineState == 0,
-                  typeGreen: item.onlineState == 1,
-                }"
-                >{{ item.onlineState == 1 ? "在线" : "离线" }}</span
-              >
-<!-- 
-            <div class="info addresswrap">
-              <span class="labels">地址：</span>
-              <span class="contents ciyao" style="font-size: 12px">
-                {{ addressHandle(item) }}</span
-              >
-            </div> -->
-          </div>
-        </li>
-      </ul>
-    </component>
+    <!-- 指标图表区域：展示分数与SSIM -->
+    <div class="metrics-chart-container">
+      <echart id="metrics-chart" :height="'220px'" :width="'100%'" :options="chartOptions" />
+    </div>
+    
   </div>
-
-  <Reacquire v-else @onclick="getData" style="line-height: 200px" />
 </template>
 
 <script>
 import { currentGET } from "api";
 import vueSeamlessScroll from "vue-seamless-scroll"; // vue2引入方式
 import Kong from "../../components/kong.vue";
+import Echart from "@/components/echart/index.vue";
 export default {
-  components: { vueSeamlessScroll, Kong },
+  components: { vueSeamlessScroll, Kong, echart: Echart },
   data() {
     return {
       list: [],
       pageflag: true,
       components: vueSeamlessScroll,
+      chartOptions: {},
       defaultOption: {
         ...this.$store.state.setting.defaultOption,
         singleHeight: 240,
@@ -85,6 +50,9 @@ export default {
       }
       return sbtxSwiper;
     },
+    metricsAlgoIndex() {
+      return this.$store.state.setting.metricsAlgoIndex;
+    }
   },
   created() {
     
@@ -92,8 +60,91 @@ export default {
 
   mounted() {
     this.getData();
+    this.generateMetricsAndBuildChart(this.metricsAlgoIndex || 0);
   },
   methods: {
+    // 生成模拟的分数与SSIM并构建图表
+    generateMetricsAndBuildChart(index = 0) {
+      const pointsCount = 6;
+      const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
+      const scores = [];
+      const ssims = [];
+      const categories = Array.from({ length: pointsCount }, (_, i) => `监控点${i + 1}`);
+
+      for (let i = 0; i < pointsCount; i++) {
+        const psnrBase = 30 - index * 1.5;
+        const ssimBase = 0.85 - index * 0.03;
+        const mseBase = 40 + index * 15;
+
+        const psnr = clamp(psnrBase + (Math.random() * 6 - 3), 18, 45);
+        const ssim = clamp(ssimBase + (Math.random() * 0.08 - 0.04), 0.5, 0.98);
+        const mse = clamp(mseBase + (Math.random() * 30 - 15), 5, 200);
+
+        const psnrNorm = clamp(((psnr - 20) / (40 - 20)) * 100, 0, 100);
+        const ssimNorm = clamp(((ssim - 0.5) / (1.0 - 0.5)) * 100, 0, 100);
+        const mseNorm = clamp((mse / 255) * 100, 0, 100);
+
+        const score = Math.round(0.55 * psnrNorm + 0.4 * ssimNorm + 0.05 * (100 - mseNorm));
+        scores.push(score);
+        ssims.push(Number(ssim.toFixed(3)));
+      }
+
+      this.chartOptions = {
+        backgroundColor: 'transparent',
+        tooltip: { trigger: 'axis' },
+        legend: {
+          data: ['分数', 'SSIM'],
+          textStyle: { color: '#aefcff' }
+        },
+        grid: { left: 40, right: 20, top: 40, bottom: 30 },
+        xAxis: {
+          type: 'category',
+          data: categories,
+          axisLine: { lineStyle: { color: 'rgba(0, 237, 237, 0.6)' } },
+          axisLabel: { color: '#d7ffff' }
+        },
+        yAxis: [
+          {
+            type: 'value',
+            name: '分数',
+            min: 0,
+            max: 100,
+            axisLine: { lineStyle: { color: 'rgba(0, 237, 237, 0.6)' } },
+            axisLabel: { color: '#d7ffff' },
+            splitLine: { lineStyle: { color: 'rgba(0, 237, 237, 0.15)' } }
+          },
+          {
+            type: 'value',
+            name: 'SSIM',
+            min: 0.5,
+            max: 1.0,
+            axisLine: { lineStyle: { color: 'rgba(0, 123, 255, 0.6)' } },
+            axisLabel: { color: '#d7ffff' },
+            splitLine: { show: false }
+          }
+        ],
+        series: [
+          {
+            name: '分数',
+            type: 'bar',
+            data: scores,
+            yAxisIndex: 0,
+            itemStyle: {
+              color: '#00eded'
+            }
+          },
+          {
+            name: 'SSIM',
+            type: 'line',
+            data: ssims,
+            yAxisIndex: 1,
+            smooth: true,
+            lineStyle: { color: '#7db3ff' },
+            itemStyle: { color: '#7db3ff' }
+          }
+        ]
+      };
+    },
     addressHandle(item) {
       let name = item.provinceName;
       if (item.cityName) {
@@ -127,6 +178,11 @@ export default {
       });
     },
   },
+  watch: {
+    metricsAlgoIndex(newVal) {
+      this.generateMetricsAndBuildChart(newVal || 0);
+    }
+  }
 };
 </script>
 <style lang='scss' scoped>
@@ -134,6 +190,15 @@ export default {
   overflow: hidden;
   width: 100%;
   height: 100%;
+}
+
+.metrics-chart-container {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  border: 1px solid rgba(0, 237, 237, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 237, 237, 0.15);
 }
 
 .doudong {

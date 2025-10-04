@@ -9,13 +9,13 @@
           <div class="zuojuxing"></div>
           <div class="youjuxing"></div>
           <div class="guang"></div>
-          <div class="btn1" :class="{ active: flag === 1 }" @click="change(1)">画质评价</div>
+          <!-- <div class="btn1" :class="{ active: flag === 1 }" @click="change(1)">画质评价</div>
           <div class="btn2" :class="{ active: flag === 2 }" @click="change(2)">复原增强</div>
           <div class="btn3" :class="{ active: flag === 3 }" @click="change(3)">定位检测</div>
-          <div class="btn4" :class="{ active: flag === 4 }" @click="change(4)">超标预警</div>
+          <div class="btn4" :class="{ active: flag === 4 }" @click="change(4)">超标预警</div> -->
           <div class="d-flex jc-center">
             <div class="title">
-              <span class="title-text">工业烟气排放智能监控可视化平台</span>
+              <span class="title-text">监控影像质量(噪声失真)评估系统</span>
             </div>
           </div>
           <div class="timers">
@@ -33,9 +33,9 @@
         <!-- 内容  s-->
         <!-- <router-view></router-view> -->
         <Index v-if="flag == 1"/>
-        <Recover v-if="flag == 2 "/>
+        <!-- <Recover v-if="flag == 2 "/>
         <Detection v-if="flag == 3"/>
-        <Warn v-if="flag == 4"/>
+        <Warn v-if="flag == 4"/> -->
         <!-- 内容 e -->
       </div>
     </div>

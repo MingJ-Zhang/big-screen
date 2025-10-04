@@ -22,7 +22,7 @@
       </ItemWrap2>
     </div>
     <div class="contetn_center">
-      <ItemWrap class="contetn_left-center contetn_lr-item" title="画质评价">
+      <ItemWrap class="contetn_left-center contetn_lr-item" title="噪声失真评估">
         <LeftCenter2 />
       </ItemWrap>
       <ItemWrap2 class="contetn_center-center contetn_lr-item" title="监控视频-点位 3">
@@ -37,7 +37,7 @@
       </ItemWrap> -->
     </div>
     <div class="contetn_right">
-      <ItemWrap class="contetn_left-bottom contetn_lr-item" title="设备提醒" style="padding: 0 10px 16px 10px">
+      <ItemWrap class="contetn_left-bottom contetn_lr-item" title="指标展示" style="padding: 0 10px 16px 10px">
         <LeftBottom />
       </ItemWrap>
       <ItemWrap2 class="contetn_left-center contetn_lr-item" title="监控视频-点位 5">

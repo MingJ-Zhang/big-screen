@@ -11,6 +11,7 @@ export default {
         sbtxSwiper: true,//设备提醒轮播
         ssyjSwiper:true,//实时预警轮播
         isScale:true,//是否进行全局适配
+        metricsAlgoIndex: 0, // 当前选中的评估算法索引
         defaultOption: {
             step: 4.4, // 数值越大速度滚动越快
             hoverStop: true, // 是否开启鼠标悬停stop
@@ -48,6 +49,9 @@ export default {
                 isScale:state.isScale
             }))
         },
+        setMetricsAlgoIndex(state, index) {
+            state.metricsAlgoIndex = index
+        }
 
     },
     actions: {

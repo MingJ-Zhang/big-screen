@@ -62,6 +62,21 @@ const routes = [{
   component: () => import('../views/liangdu.vue')
 },
 {
+  path: '/yuwuxue',
+  name: 'yuwuxue',
+  component: () => import('../views/yuwuxue.vue')
+},
+{
+  path: '/guangzhao',
+  name: 'guangzhao',
+  component: () => import('../views/guangzhao.vue')
+},
+{
+  path: '/duibidu',
+  name: 'duibidu',
+  component: () => import('../views/duibidu.vue')
+},
+{
   path: '/dianjingyingxiang',
   name: 'dianjingyingxiang',
   component: () => import('../views/dianjingyingxiang.vue')

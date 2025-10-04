@@ -12,6 +12,7 @@ export default {
         ssyjSwiper:true,//实时预警轮播
         isScale:true,//是否进行全局适配
         metricsAlgoIndex: 0, // 当前选中的评估算法索引
+        metricsData: [], // 当前表格生成的指标数据（与图表保持一致）
         defaultOption: {
             step: 4.4, // 数值越大速度滚动越快
             hoverStop: true, // 是否开启鼠标悬停stop
@@ -51,6 +52,9 @@ export default {
         },
         setMetricsAlgoIndex(state, index) {
             state.metricsAlgoIndex = index
+        },
+        setMetricsData(state, payload) {
+            state.metricsData = Array.isArray(payload) ? payload : []
         }
 
     },

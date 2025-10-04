@@ -47,6 +47,11 @@ const routes = [{
   component: () => import('../views/zaosheng.vue')
 },
 {
+  path: '/mohu',
+  name: 'mohu',
+  component: () => import('../views/mohu.vue')
+},
+{
   path: '/dianjingyingxiang',
   name: 'dianjingyingxiang',
   component: () => import('../views/dianjingyingxiang.vue')

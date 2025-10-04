@@ -87,7 +87,7 @@ export default {
       lastUpdate: '',
       systems: [
         { id: 1, title: '监控影像质量(噪声失真)评估', description: '自动评估画面噪声程度，量化失真影响。', route: '/zaosheng', icon: 'el-icon-data-analysis' },
-        { id: 2, title: '监控影像质量(模糊失真)评估', description: '检测图像清晰度，评估模糊对识别影响。', route: null, icon: 'el-icon-picture' },
+        { id: 2, title: '监控影像质量(模糊失真)评估', description: '检测图像清晰度，评估模糊对识别影响。', route: '/mohu', icon: 'el-icon-picture' },
         { id: 3, title: '监控影像质量(压缩失真)评估', description: '分析压缩伪影与码率关系，给出质量评分。', route: null, icon: 'el-icon-s-operation' },
         { id: 4, title: '监控影像质量(亮度对比度)评估', description: '测量亮度与对比度偏差，建议优化参数。', route: null, icon: 'el-icon-s-grid' },
         { id: 5, title: '监控影像雨雾雪自动去除', description: '智能去除雨雾雪干扰，提升画面通透度。', route: null, icon: 'el-icon-magic-stick' },

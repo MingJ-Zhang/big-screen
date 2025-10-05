@@ -77,6 +77,11 @@ const routes = [{
   component: () => import('../views/duibidu.vue')
 },
 {
+  path: '/fenchenyzzznjc',
+  name: 'fenchenyzzznjc',
+  component: () => import('../views/fenchenyzzznjc.vue')
+},
+{
   path: '/dianjingyingxiang',
   name: 'dianjingyingxiang',
   component: () => import('../views/dianjingyingxiang.vue')

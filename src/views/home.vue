@@ -2,6 +2,9 @@
   <!-- <div id="index" ref="appRef" class="index_home" :class="{ pageisScale: isScale }"> -->
   <ScaleScreen :width="1920" :height="1080" class="scale-wrap" :selfAdaption="$store.state.setting.isScale">
     <div class="bg">
+      <video src="@/assets/video/bg.mp4" autoplay muted loop class="bg-video"></video>
+      <div class="video-overlay"></div>
+      <!-- <div class="watermark-cover"></div> -->
       <dv-loading v-if="loading">Loading...</dv-loading>
       <div v-else class="host-body">
         <!-- 头部 s -->
@@ -84,5 +87,41 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.bg {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+  .watermark-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px; 
+    height: 50px;
+    background-color: #000;
+    z-index: 2;
+  }
+}
+.host-body{
+  position: relative;
+  z-index: 3;
+}
 @import "./home.scss";
 </style>

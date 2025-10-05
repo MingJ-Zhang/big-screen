@@ -5,8 +5,6 @@
       <div v-for="i in 50" :key="i" class="particle" :style="getParticleStyle(i)"></div>
     </div>
     
-    <!-- 网格背景 -->
-    <div class="grid-bg"></div>
     
     <!-- 主标题 -->
     <div class="main-title">
@@ -93,7 +91,7 @@ export default {
         { id: 5, title: '监控影像雨雾雪自动去除', description: '智能去除雨雾雪干扰，提升画面通透度。', route: '/yuwuxue', icon: 'el-icon-magic-stick' },
         { id: 6, title: '监控影像光照自适应校准', description: '自适应补偿光照变化，稳定曝光与色彩。', route: '/guangzhao', icon: 'el-icon-s-tools' },
         { id: 7, title: '监控影像对比度自动优化', description: '自动增强局部与整体对比度，突出关键细节。', route: '/duibidu', icon: 'el-icon-edit' },
-        { id: 8, title: '粉尘有组织排放智能监测', description: '实时监测管道/设备排放粉尘浓度与状态。', route: null, icon: 'el-icon-monitor' },
+        { id: 8, title: '粉尘有组织排放智能监测', description: '实时监测管道/设备排放粉尘浓度与状态。', route: '/fenchenyzzznjc', icon: 'el-icon-monitor' },
         { id: 9, title: '粉尘有组织排放定位分割', description: '精准定位并分割排放区域，提取目标轮廓。', route: null, icon: 'el-icon-location' },
         { id: 10, title: '粉尘有组织排放浓度预测', description: '基于时序数据预测后续排放浓度趋势。', route: null, icon: 'el-icon-s-marketing' },
         { id: 11, title: '粉尘无组织排放浓度识别', description: '识别扩散粉尘区域并估算浓度水平。', route: null, icon: 'el-icon-data-board' },
@@ -136,10 +134,6 @@ export default {
 .cyber-dashboard {
   position: relative;
   min-height: 100%;
-  background: 
-    radial-gradient(circle at 20% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
-    linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
   overflow: hidden;
   padding: 2rem;
   box-sizing: border-box;
@@ -167,19 +161,6 @@ export default {
 }
 
 // 网格背景
-.grid-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 50px 50px;
-  animation: gridMove 20s linear infinite;
-  z-index: 1;
-}
 
 // 主标题
 .main-title {
